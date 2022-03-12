@@ -4,7 +4,7 @@ import { User } from "../../types/User";
 import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
-    const [user, setUSer] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     const api = useApi();
 
     useEffect(() => {
@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
             if (storageData) {
                 const data = await api.validateToken(storageData);
                 if (data.user) {
-                    setUSer(data.user);
+                    setUser(data.user);
                 }
             }
             validateToken();
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const signin = async (email: string, password: string) => {
         const data = await api.signin(email, password);
         if (data.user && data.token) {
-            setUSer(data.user);
+            setUser(data.user);
             setToken(data.token);
             return true;
         }
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     }
 
     const signout = async () => {
-        setUSer(null);
+        setUser(null);
         clearToken();
         await api.signout();
     }
